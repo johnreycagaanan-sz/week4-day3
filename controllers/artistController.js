@@ -41,21 +41,21 @@ const getArtist = (req, res, next) => {
     res
     .status(200)
     .setHeader('Content-Type', 'application/json')
-    .json({success:true, msg: `Showing artist: ${req.params.artist}`})
+    .json({success:true, msg: `Showing artist: ${req.params.artistID}`})
 }
 
 const deleteArtist = (req, res, next) => {
     res
     .status(200)
     .setHeader('Content-Type', 'application/json')
-    .json({success:true, msg: `Deleting artist: ${req.params.artist}`})
+    .json({success:true, msg: `Deleting artist: ${req.params.artistID}`})
 }
 
 const updateArtist = (req, res, next) => {
     res
     .status(200)
     .setHeader('Content-Type', 'application/json')
-    .json({success:true, msg: `Updating artist: ${req.params.artist}`})
+    .json({success:true, msg: `Updating artist: ${req.params.artistID}`})
 }
 
 module.exports = {

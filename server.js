@@ -7,15 +7,16 @@ const song = require('./routes/song');
 const user = require('./routes/user');
 const logger = require('./middlewares/logger');
 const errorHandler = require('./middlewares/error');
+const connectDB = require('./config/db');
 
 dotenv.config({ path: './config/config.env'});
+connectDB();
 
 const app = express();
 
 if(process.env.NODE_ENV === 'development'){
     app.use(morgan('dev'));
 }
-
 app.use(bodyParser.json());
 
 app.use(logger);

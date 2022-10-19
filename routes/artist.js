@@ -16,7 +16,7 @@ router.route('/')
       .post(reqReceivedLogger, artistValidator, postArtist)
       .delete(reqReceivedLogger, deleteArtists)
 
-router.route('/:artist')
+router.route('/:artistID')
       .get(reqReceivedLogger, getArtist)
       .put(reqReceivedLogger, updateArtist)
       .delete(reqReceivedLogger, deleteArtist)
