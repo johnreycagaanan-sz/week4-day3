@@ -18,11 +18,11 @@ const getSongs = async(req, res, next) => {
 
     }
     try {
-        const result = await Song.find();
+        const songs = await Song.find();
         res
             .status(200)
             .setHeader('Content-Type', 'application/json')
-            .json(result)
+            .json(songs)
     } catch (err) {
         throw new Error(`Error retrieving songs: ${err.message}`)
     }
@@ -31,11 +31,11 @@ const getSongs = async(req, res, next) => {
 
 const postSong = async(req, res, next) => {
     try {
-        const result = await Song.create(req.body);
+        const song = await Song.create(req.body);
         res
             .status(200)
             .setHeader('Content-Type', 'application/json')
-            .json(result)
+            .json(song)
     } catch (err) {
         throw new Error(`Error adding new song: ${err.message}`)
     }
@@ -57,11 +57,11 @@ const deleteSongs = async(req, res, next) => {
 
 const getSong = async(req, res, next) => {
     try {
-        const result = await Song.findById(req.params.songId);
+        const song = await Song.findById(req.params.songId);
         res
                 .status(200)
                 .setHeader('Content-Type', 'application/json')
-                .json(result)
+                .json(song)
     } catch (err) {
         throw new Error(`Error retrieving song ${req.params.songId}: ${err.message}`)
     }
@@ -83,7 +83,7 @@ const deleteSong = async(req, res, next) => {
 
 const updateSong = async(req, res, next) => {
     try {
-        const result = await Song.findByIdAndUpdate(req.params.songId,{
+        const song = await Song.findByIdAndUpdate(req.params.songId,{
             $set : req.body
         },{
             new:true
@@ -91,7 +91,7 @@ const updateSong = async(req, res, next) => {
         res
                 .status(200)
                 .setHeader('Content-Type', 'application/json')
-                .json(result)
+                .json(song)
     } catch (err) {
         throw new Error(`Error updating song ${req.params.songId} : ${err.message}`)
     }

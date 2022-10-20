@@ -38,7 +38,6 @@ const artistValidator = (req, res, next) => {
 
 const userValidator = (req, res, next) => {
     if (req.body){
-        console.log(req.body)
         if(!req.body.userName ||
            !req.body.gender ||
            !req.body.age){
