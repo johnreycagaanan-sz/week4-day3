@@ -12,15 +12,21 @@ const ArtistSchema = new Schema({
         required: true,
         maxLength: 10
     },
-    gender: {
+    genre: {
         type: String,
-        enum: [
-            'Male',
-            'Female'
-        ]
     }
 },{
     timestamps: true
+})
+
+ArtistSchema.pre('save', function(next) {
+    this.firstName = this.firstName.trim();
+    this.lastName = this.lastName.trim();
+    next();
+})
+
+ArtistSchema.post('save', function() {
+    this.gender = this.gender.toUpperCase();
 })
 
 module.exports = mongoose.model('Artist', ArtistSchema);

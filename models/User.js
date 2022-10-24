@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
+const validator = require('validator');
 
 const UserSchema = new Schema({
     userName: {
@@ -18,15 +19,27 @@ const UserSchema = new Schema({
     },
     age: {
         type: Number,
-        required: true
+        required: true,
+        validate: (age) => {
+            return typeof age === 'number';
+        }
+        // validate: (age) => {
+        //     return validator.isNumeric(age);
+        // }
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        validate: (email) => {
+            return validator.isEmail(email);
+        }
     },
     password: {
         type: String,
-        required: true
+        required: true,
+        validate: (password) => {
+            return validator.isStrongPassword(password);
+        }
     },
     firstName: {
         type: String,
@@ -40,6 +53,19 @@ const UserSchema = new Schema({
     }
 },{
     timestamps: true
+})
+
+UserSchema.pre('save', function(next) {
+    this.userName = this.userName.trim();
+    this.firstName = this.firstName.trim();
+    this.lastName = this.lastName.trim();
+    // this.age = this.age.toString();
+    // console.log(this.age);
+    next();
+})
+
+UserSchema.post('save', function() {
+    this.gender = this.gender.toUpperCase();
 })
 
 module.exports = mongoose.model('User', UserSchema);

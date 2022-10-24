@@ -1,25 +1,29 @@
 const User = require('../models/User');
 const getUsers = async(req, res, next) => {
+    const filter = {};
+    const options = {};
     if (Object.keys(req.body).length){
         const {
             userName,
             gender,
-            age
-        } = req.body;
+            age,
+            limit,
+            sortByAge
+        } = req.query;
 
-        const filter = [];
-        if (userName) filter.push[userName];
-        if (gender) filter.push[gender];
-        if (age) filter.push[age];
+        if (userName) filter.userName = true;
+        if (gender) filter.gender = true;
+        if (age) filter.age = true;
 
-        for (let i = 0; i < filter.length; i++){
-            console.log(`Searching song by: ${filter[i]}`)
+        if (limit) options.limit = limit;
+        if (sortByAge) options.sort = {
+            age: sortByAge === 'asc' ? 1 : -1
         }
 
     }
 
     try {
-        const users = await User.find();
+        const users = await User.find({},filter,options);
         res
             .status(200)
             .setHeader('Content-Type', 'application/json')
