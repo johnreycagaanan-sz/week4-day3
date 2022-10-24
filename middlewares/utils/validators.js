@@ -21,7 +21,7 @@ const artistValidator = (req, res, next) => {
     if (req.body){
         if(!req.body.firstName ||
            !req.body.lastName ||
-           !req.body.gender){
+           !req.body.genre){
             res
             .status(400)
             .setHeader('Content-Type', 'text/plain')
