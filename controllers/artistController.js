@@ -39,7 +39,7 @@ const postArtist = async(req, res, next) => {
     try {
         const artist = await Artist.create(req.body);
         res
-            .status(200)
+            .status(201)
             .setHeader('Content-Type', 'application/json')
             .json(artist)
     } catch (err) {
@@ -63,33 +63,33 @@ const deleteArtists = async (req, res, next) => {
 
 const getArtist = async(req, res, next) => {
     try {
-        const artist = await Artist.findById(req.params.artistID);
+        const artist = await Artist.findById(req.params.artistId);
         res
             .status(200)
             .setHeader('Content-Type', 'application/json')
             .json(artist)
     } catch (err) {
-        throw new Error(`Error retrieving artist ${req.params.artistID}: ${err.message}`);
+        throw new Error(`Error retrieving artist ${req.params.artistId}: ${err.message}`);
     }
     
 }
 
 const deleteArtist = async(req, res, next) => {
     try {
-        await Artist.findByIdAndDelete(req.params.artistID);
+        await Artist.findByIdAndDelete(req.params.artistId);
         res
             .status(200)
             .setHeader('Content-Type', 'application/json')
-            .json({success:true, msg: `Deleting artist: ${req.params.artistID}`})
+            .json({success:true, msg: `Deleting artist: ${req.params.artistId}`})
     } catch (err) {
-        throw new Error(`Error deleting artist ${req.params.artistID}: ${err.message}`);
+        throw new Error(`Error deleting artist ${req.params.artistId}: ${err.message}`);
     }
     
 }
 
 const updateArtist = async(req, res, next) => {
     try {
-        const artist = await Artist.findByIdAndUpdate(req.params.artistID,{
+        const artist = await Artist.findByIdAndUpdate(req.params.artistId,{
             $set: req.body
         },{
             new: true
@@ -99,7 +99,7 @@ const updateArtist = async(req, res, next) => {
             .setHeader('Content-Type', 'application/json')
             .json(artist)
     } catch (err) {
-        throw new Error(`Error updating artist ${req.params.artistID}: ${err.message}`)
+        throw new Error(`Error updating artist ${req.params.artistId}: ${err.message}`)
     }
     
 }
