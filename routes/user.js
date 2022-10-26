@@ -1,6 +1,6 @@
 const express = require('express');
 const reqReceivedLogger = require('../middlewares/reqReceivedLogger');
-const { userValidator } = require('../middlewares/utils/validators');
+const { userValidator, adminValidator } = require('../middlewares/utils/validators');
 
 const { getUsers,
         deleteUsers,
@@ -12,7 +12,7 @@ const router = express.Router();
 
 
 router.route('/')
-      .get(reqReceivedLogger, getUsers)
+      .get(reqReceivedLogger,adminValidator, getUsers)
       .post(reqReceivedLogger, userValidator, postUser)
       .delete(reqReceivedLogger, deleteUsers)
 

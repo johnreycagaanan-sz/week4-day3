@@ -7,7 +7,8 @@ const { getArtists,
         postArtist,
         getArtist,
         deleteArtist,
-        updateArtist } = require('../controllers/artistController');
+        updateArtist, 
+        postArtistImage} = require('../controllers/artistController');
 const router = express.Router();
 
 
@@ -20,5 +21,9 @@ router.route('/:artistId')
       .get(reqReceivedLogger, getArtist)
       .put(reqReceivedLogger, updateArtist)
       .delete(reqReceivedLogger, deleteArtist)
+
+router.route('/:artistId/image')
+      .post(reqReceivedLogger, postArtistImage)
+
 
 module.exports = router;

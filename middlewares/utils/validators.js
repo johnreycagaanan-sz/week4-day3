@@ -55,8 +55,22 @@ const userValidator = (req, res, next) => {
     }
 }
 
+const adminValidator = (req, res, next) => {
+    // const user = await req.user;
+    // console.log(req)
+   
+    if(req.user.admin){
+        next();
+    } else{
+        res
+            .status(403)
+            .setHeader('Content-Type', 'application/json')
+            .json(`Unauthorized access to this resource!`)
+    }
+}
 module.exports = {
     songValidator,
     artistValidator,
-    userValidator
+    userValidator,
+    adminValidator
 }
