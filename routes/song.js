@@ -14,18 +14,19 @@ const { getSongs,
         getSongRating,
         updateSongRating,
         deleteSongRating } = require('../controllers/songController');
+const protectedRoute = require('../middlewares/auth');
 const router = express.Router();
 
 
 router.route('/')
       .get(reqReceivedLogger, getSongs)
-      .post(reqReceivedLogger, songValidator, postSong)
-      .delete(reqReceivedLogger, deleteSongs)
+      .post(reqReceivedLogger, protectedRoute, songValidator, postSong)
+      .delete(reqReceivedLogger, protectedRoute, deleteSongs)
 
 router.route('/:songId')
       .get(reqReceivedLogger, getSong)
-      .put(reqReceivedLogger, updateSong)
-      .delete(reqReceivedLogger, deleteSong)
+      .put(reqReceivedLogger, protectedRoute, updateSong)
+      .delete(reqReceivedLogger, protectedRoute, deleteSong)
 
 router.route('/:songId/ratings')
       .get(reqReceivedLogger, getSongRatings)

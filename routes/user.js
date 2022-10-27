@@ -7,18 +7,24 @@ const { getUsers,
         postUser,
         getUser,
         deleteUser,
-        updateUser } = require('../controllers/userController');
+        updateUser,
+        login } = require('../controllers/userController');
+const protectedRoute = require('../middlewares/auth');
+
 const router = express.Router();
 
 
 router.route('/')
-      .get(reqReceivedLogger,adminValidator, getUsers)
+      .get(reqReceivedLogger, protectedRoute, adminValidator, getUsers)
       .post(reqReceivedLogger, userValidator, postUser)
-      .delete(reqReceivedLogger, deleteUsers)
+      .delete(reqReceivedLogger, protectedRoute, adminValidator, deleteUsers)
+
+router.route('/login')
+      .post(reqReceivedLogger, login)
 
 router.route('/:userId')
       .get(reqReceivedLogger, getUser)
-      .put(reqReceivedLogger, updateUser)
-      .delete(reqReceivedLogger, deleteUser)
+      .put(reqReceivedLogger, protectedRoute, updateUser)
+      .delete(reqReceivedLogger, protectedRoute, deleteUser)
 
 module.exports = router;

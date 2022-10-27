@@ -9,21 +9,23 @@ const { getArtists,
         deleteArtist,
         updateArtist, 
         postArtistImage} = require('../controllers/artistController');
+const protectedRoute = require('../middlewares/auth');
+
 const router = express.Router();
 
 
 router.route('/')
       .get(reqReceivedLogger, getArtists)
-      .post(reqReceivedLogger, artistValidator, postArtist)
-      .delete(reqReceivedLogger, deleteArtists)
+      .post(reqReceivedLogger, protectedRoute, artistValidator, postArtist)
+      .delete(reqReceivedLogger, protectedRoute, deleteArtists)
 
 router.route('/:artistId')
       .get(reqReceivedLogger, getArtist)
-      .put(reqReceivedLogger, updateArtist)
-      .delete(reqReceivedLogger, deleteArtist)
+      .put(reqReceivedLogger, protectedRoute, updateArtist)
+      .delete(reqReceivedLogger, protectedRoute, deleteArtist)
 
 router.route('/:artistId/image')
-      .post(reqReceivedLogger, postArtistImage)
+      .post(reqReceivedLogger, protectedRoute, postArtistImage)
 
 
 module.exports = router;
