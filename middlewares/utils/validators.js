@@ -55,11 +55,11 @@ const userValidator = (req, res, next) => {
     }
 }
 
-const adminValidator = (req, res, next) => {
-    // const user = await req.user;
+const adminValidator = async(req, res, next) => {
+    const user = await User;
     // console.log(req)
    
-    if(req.user.admin){
+    if(user.admin){
         next();
     } else{
         res
