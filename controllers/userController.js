@@ -34,21 +34,8 @@ const getUsers = async(req, res, next) => {
     }
 }
 
-const login = async(req, res, next) => {
-    const {email, password } = req.body
 
-    if(!email || !password) throw new Error ('Please provide an email and password')
 
-    const user = await User.findOne({email}).select('+password')
-
-    if(!user) throw new error ('Invalid credentials')
-
-    const isMatch = await await user.matchPassword(password);
-
-    if(!isMatch) throw new Error('Invalid credentails')
-
-    sendTokenResponse(user, 200, res)
-}
 const postUser = async(req, res, next) => {
     try {
         const user = await User.create(req.body);
@@ -128,6 +115,88 @@ const sendTokenResponse = (user, statusCode, res) => {
         .json({success: true, token})
 }
 
+const login = async(req, res, next) => {
+    const {email, password } = req.body
+
+    if(!email || !password) throw new Error ('Please provide an email and password')
+
+    const user = await User.findOne({email}).select('+password')
+
+    if(!user) throw new error ('Invalid credentials')
+
+    const isMatch = await user.matchPassword(password);
+
+    if(!isMatch) throw new Error('Invalid credentails')
+
+    sendTokenResponse(user, 200, res)
+}
+
+const logout = async(req, res, next) => {
+    const user = await User.findOne(req.query.id)
+
+    res
+        .status(200)
+        .cookie('token', 'none', {
+            expires: new Date(Date.now() + 10 * 1000),
+            httpOnly: true
+        })
+        .json({success: true, msg: 'Successfully logged out'})
+        
+}
+
+const forgotPassword = async(req, res, next) => {
+    const user = await User.findOne({email: req.body.email})
+
+    if(!user) throw new Error('No user found');
+
+    const resetToken = user.getResetPasswordToken();
+
+    try {
+        user.save({ validateBeforeSave: false })
+        res
+            .status(200)
+            .setHeader('Content-Type', 'application/json')
+            .json({succes: true, msg: `Password has been reset with token: ${resetToken}`})
+    } catch (err) {
+        user.resetPasswordToken = undefined;
+        user.resetPasswordExpire = undefined;
+
+        user.save({ validateBeforeSave: false })
+        throw new Error(`Failed to save new password`)
+    }
+}
+
+const resetPassword = async(req, res, next) => {
+    const resetPasswordToken = crypto.createHash('sha256').update(req.query.resetToken).digest('hex');
+
+    const user = await User.findOne({
+        resetPasswordToken,
+        resetPasswordExpire: { $gt: Date.now() }
+    })
+    console.log(user);
+
+    if(!user) throw new Error('Invalid token');
+
+    user.password = req.body.password;
+    user.resetPasswordExpire = undefined;
+    user.resetPasswordToken = undefined;
+
+    await user.save();
+
+    sendTokenResponse(user, 200, res)
+}
+
+const updatePassword = async(req, res, next) => {
+    const user = await User.findById(req.user.id).select('+password');
+
+    const passwordMatches = await user.matchPassword(req.body.password);
+
+    if(!passwordMatches) throw new Error('Password is incorrect');
+    user.password = req.body.newPassword
+
+    user.save();
+    sendTokenResponse(user, 200, res)
+}
 module.exports = {
     getUsers,
     deleteUsers,
@@ -135,5 +204,9 @@ module.exports = {
     getUser,
     deleteUser,
     updateUser,
-    login
+    login,
+    logout,
+    forgotPassword,
+    resetPassword,
+    updatePassword
 }

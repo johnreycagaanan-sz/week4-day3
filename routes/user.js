@@ -8,8 +8,13 @@ const { getUsers,
         getUser,
         deleteUser,
         updateUser,
-        login } = require('../controllers/userController');
+        login,
+        forgotPassword,
+        updatePassword,
+        logout,
+        resetPassword } = require('../controllers/userController');
 const protectedRoute = require('../middlewares/auth');
+
 
 const router = express.Router();
 
@@ -21,6 +26,18 @@ router.route('/')
 
 router.route('/login')
       .post(reqReceivedLogger, login)
+
+router.route('/forgotpassword')
+      .post(reqReceivedLogger, forgotPassword)
+
+router.route('/resetpassword')
+      .put(reqReceivedLogger, resetPassword)
+
+router.route('/updatepassword')
+      .put(reqReceivedLogger, protectedRoute, updatePassword)
+
+router.route('/logout')
+      .get(reqReceivedLogger, protectedRoute, logout)
 
 router.route('/:userId')
       .get(reqReceivedLogger, getUser)
