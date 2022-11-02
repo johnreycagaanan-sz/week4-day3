@@ -132,8 +132,6 @@ const login = async(req, res, next) => {
 }
 
 const logout = async(req, res, next) => {
-    const user = await User.findOne(req.query.id)
-
     res
         .status(200)
         .cookie('token', 'none', {
@@ -152,7 +150,7 @@ const forgotPassword = async(req, res, next) => {
     const resetToken = user.getResetPasswordToken();
 
     try {
-        user.save({ validateBeforeSave: false })
+        await user.save({ validateBeforeSave: false })
         res
             .status(200)
             .setHeader('Content-Type', 'application/json')
@@ -161,19 +159,19 @@ const forgotPassword = async(req, res, next) => {
         user.resetPasswordToken = undefined;
         user.resetPasswordExpire = undefined;
 
-        user.save({ validateBeforeSave: false })
+        await user.save({ validateBeforeSave: false })
         throw new Error(`Failed to save new password`)
     }
 }
 
 const resetPassword = async(req, res, next) => {
     const resetPasswordToken = crypto.createHash('sha256').update(req.query.resetToken).digest('hex');
-
+    console.log(resetPasswordToken)
     const user = await User.findOne({
         resetPasswordToken,
         resetPasswordExpire: { $gt: Date.now() }
     })
-    console.log(user);
+    
 
     if(!user) throw new Error('Invalid token');
 
@@ -194,7 +192,7 @@ const updatePassword = async(req, res, next) => {
     if(!passwordMatches) throw new Error('Password is incorrect');
     user.password = req.body.newPassword
 
-    user.save();
+    await user.save();
     sendTokenResponse(user, 200, res)
 }
 module.exports = {
