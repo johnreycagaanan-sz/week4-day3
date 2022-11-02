@@ -49,8 +49,5 @@ const SongSchema = new Schema({
 //     next();
 // })
 
-// SongSchema.post('save', function() {
-//     this.gender = this.gender.toUpperCase();
-// })
 
 module.exports = mongoose.model('Song', SongSchema)

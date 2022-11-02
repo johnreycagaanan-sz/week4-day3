@@ -28,8 +28,5 @@ ArtistSchema.pre('save', function(next) {
     next();
 })
 
-// ArtistSchema.post('save', function() {
-//     this.genre = this.genre.toUpperCase();
-// })
 
 module.exports = mongoose.model('Artist', ArtistSchema);

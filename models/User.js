@@ -70,9 +70,6 @@ const UserSchema = new Schema({
 })
 
 UserSchema.pre('save', async function(next) {
-    // this.userName = this.userName.trim();
-    // this.firstName = this.firstName.trim();
-    // this.lastName = this.lastName.trim();
     if(!this.isModified) next();
 
     const salt = await bcrypt.genSalt(10);
@@ -100,8 +97,6 @@ UserSchema.methods.getResetPasswordToken = function() {
 
     return resetToken;
 }
-// UserSchema.post('save', function() {
-//     this.gender = this.gender.toUpperCase();
-// })
+
 
 module.exports = mongoose.model('User', UserSchema);
