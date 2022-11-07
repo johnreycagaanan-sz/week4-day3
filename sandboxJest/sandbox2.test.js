@@ -37,7 +37,7 @@ describe('tests fetchProfile function', () => {
         expect(data.company.name).toBe('Deckow-Crist')
     })
 
-    test('should return a company name of Deckow-Crist', async() => {
+    test('should return true if data.address does not contain a zipcode of 90388-2220', async() => {
         const data = await fetchProfile();
         expect(data.address).not.toHaveProperty('zipcode','90388-2220')
     })
