@@ -39,11 +39,6 @@ describe('tests fetchProfile function', () => {
 
     test('should return a company name of Deckow-Crist', async() => {
         const data = await fetchProfile();
-        expect(data.company.name).toBe('Deckow-Crist')
-    })
-
-    test('should return a company name of Deckow-Crist', async() => {
-        const data = await fetchProfile();
         expect(data.address).not.toHaveProperty('zipcode','90388-2220')
     })
 })
@@ -71,8 +66,8 @@ describe(`tests addNewProperty function`, () => {
 
     test(`should return a new object with a new key value pair equal to the passed
     property and value`, () => {
-        const expected = {firstName: 'Tony', lastName: 'Kim'}
-        expect(addNewProperty({firstName: 'Tony'}, 'lastName', 'Kim')).toMatchObject(expected)
+        // const expected = {firstName: 'Tony', lastName: 'Kim'}
+        expect(addNewProperty({firstName: 'Tony'}, 'lastName', 'Kim')).toMatchObject({firstName: 'Tony', lastName: 'Kim'})
         // expect(addNewProperty({firstName: 'Tony'}, 'lastName', 'Kim')).toHaveProperty({firstName: 'Tony', lastName: 'Kim'})
     })
 })
