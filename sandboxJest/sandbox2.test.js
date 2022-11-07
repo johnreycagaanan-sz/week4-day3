@@ -71,7 +71,9 @@ describe(`tests addNewProperty function`, () => {
 
     test(`should return a new object with a new key value pair equal to the passed
     property and value`, () => {
-        expect(addNewProperty({firstName: 'Tony'}, 'lastName', 'Kim')).toEqual({firstName: 'Tony', lastName: 'Kim'})
+        const expected = {firstName: 'Tony', lastName: 'Kim'}
+        expect(addNewProperty({firstName: 'Tony'}, 'lastName', 'Kim')).toMatchObject(expected)
+        // expect(addNewProperty({firstName: 'Tony'}, 'lastName', 'Kim')).toHaveProperty({firstName: 'Tony', lastName: 'Kim'})
     })
 })
 
