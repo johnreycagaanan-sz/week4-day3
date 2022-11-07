@@ -45,7 +45,7 @@ describe('tests fetchProfile function', () => {
 
 describe('tests removeNumberFromArray function', () => {
     test('should throw an error with text "Missing array" if no array is passed', () => {
-        expect(() => removeNumberFromArray([])).toThrow(Error('Missing array'))
+        expect(() => removeNumberFromArray([],0)).toThrow(Error('Missing array'))
     })
 
     test('should return new array without the number that was removed', () => {
@@ -54,14 +54,14 @@ describe('tests removeNumberFromArray function', () => {
 
     test(`should throw an error with text "Array does not include number 
     include <specified number">`, () => {
-        expect(() => removeNumberFromArray([1, 2, 4], 3).toThrow(Error(`Array does not include number ${numberToRemove}`)))
+        expect(() => removeNumberFromArray([1, 2, 4], 3)).toThrow(Error)
     })
 })
 
 describe(`tests addNewProperty function`, () => {
     test(`should throw an error with message "Mising both property and value"
     if property and value are undefined`, () => {
-        expect(() => addNewProperty({}).toThrow(Error(`Missing both property and value`)))
+        expect(() => addNewProperty({})).toThrow(Error(`Missing both property and value`))
     })
 
     test(`should return a new object with a new key value pair equal to the passed
@@ -74,7 +74,7 @@ describe(`tests addNewProperty function`, () => {
 
 describe(`tests sortArray function`, () => {
     test(`should throw new error with message "Missing array" if no array was passed in`, () => {
-        expect(()=>sortArray([]).toThrow(Error('Missing array')))
+        expect(()=>sortArray()).toThrow(Error)
     })
 
     test(`should return a new array with the numbers sorted out`, () => {
@@ -84,7 +84,7 @@ describe(`tests sortArray function`, () => {
 
 describe(`tests upperCaseWords`, () => {
     test(`should throw new error with message "Missing words array" if no array was passed in`, () => {
-        expect(()=>upperCaseWords([]).toThrow(Error('Missing words array')))
+        expect(()=>upperCaseWords()).toThrow(Error('Missing words array'))
     })
 
     test(`should return a new array with all the letters in uppercase`, () => {
